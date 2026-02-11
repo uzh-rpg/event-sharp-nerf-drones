@@ -1,0 +1,106 @@
+expname = bluroutdoorpool_0.2degm_0.02mm
+
+basedir = logs
+tbdir = tb
+
+num_gpu = 1
+seed = 10000
+
+# -- Dataset --
+datadir = datasets/ev-deblurnerf_blender/bluroutdoorpool
+factor = 1
+llffhold = 8
+posesbounds_sourcename = percent1.0_moderelative_rot0.2_tran0.02
+
+# -- Training --
+N_rand = 1024
+N_iters = 30000
+N_samples = 64
+N_importance = 64
+raw_noise_std = 1.0
+lrate = 0.005
+lrate_decay = 10
+
+# -- Networks --
+mode = c2f
+rgb_activate = sigmoid
+use_viewdirs = True
+
+coarse_app_dim = 32
+coarse_app_n_comp = [64, 16, 16]
+coarse_hidden_dim = 64
+coarse_hidden_dim_color = 64
+coarse_n_voxels = 16777248
+coarse_num_layers = 2
+coarse_num_layers_color = 3
+fine_app_dim = 32
+fine_app_n_comp = [64, 16, 16]
+fine_geo_feat_dim = 128
+fine_hidden_dim = 256
+fine_hidden_dim_color = 256
+fine_n_voxels = 134217984
+fine_num_layers = 2
+fine_num_layers_color = 3
+
+# -- Blur modeling --
+blur_loss_after = 0
+kernel_start_iter = 1200
+
+# -- Image losses --
+use_prior_images = edi
+prior_weight = 0.01
+prior_weight_end = 1e-05
+prior_weight_steps = 10000
+prior_weight_scheduler = cosine
+prior_start_iter = 0
+prior_end_iter = 9999999
+
+# -- Events --
+use_events
+events_N_rand = 4096
+add_event_egm
+add_event_egm_stages = [stage0, stage1]
+add_event_egm_startiter = 1200
+event_egm_weight = 0.1
+events_tms_unit = ns
+events_tms_files_unit = us
+events_threshold = 0.2
+event_accumulate_step_range = [0, 0]
+event_accumulate_step_range_end = [0, 0]
+event_accumulate_step_scheduler = constant
+tone_mapping_events_type = learn
+tone_mapping_events_add_bii = pos-neg
+
+# -- Pose interpolator model --
+pose_interpolator_type = posenet
+
+# -- Timestamp / exposure sampling --
+timestamps_sampler_exposure_time_us = 40000
+timestamps_sampler_learned_hidden_dim = 32
+timestamps_sampler_learned_num_layers = 1
+timestamps_sampler_learned_predict_weights = False
+timestamps_sampler_learned_use_anchors = False
+timestamps_sampler_num_samples = 9
+timestamps_sampler_type = uniform
+
+# -- Tone mapping --
+tone_mapping_type = gamma
+tone_mapping_start_learn_iter = 1200
+tone_mapping_learn_init_identity = True
+
+# -- Test poses alignment --
+test_pose_alignment
+test_pose_refinement = independent_rel
+test_pose_refinement_iters = 5000
+test_pose_refinement_optim = RMSprop
+test_pose_refinement_errorbased_underpsnr = 19
+test_pose_refinement_valid_every = 100
+test_pose_refinement_2stage_optim = Adam
+test_pose_refinement_2stage_perc = 0.67
+test_pose_refinement_lrate = 0.001
+test_pose_refinement_lrate_decay = 0
+test_pose_refinement_rays_per_img = 300
+
+# -- Rendering --
+render_focuspoint_scale = 0.25
+render_radius_scale = 0.5
